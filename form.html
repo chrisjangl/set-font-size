@@ -1,0 +1,230 @@
+<button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapse-font-size" style="font-size: 15px !important;width: 100%;text-decoration: underline;">
+    Adjust font sizes
+</button>
+
+<div class="collapse container pt-3 pb-3" id="collapse-font-size">
+	<form action="" class="col-12" id="set-font-size">
+		<!-- p -->
+		<div class="form-group">
+			<label for="p">Base font size</label>
+			<div class="input-group">
+				<input type="number" class="form-control" id="p" aria-describedby="pHelp" placeholder="Enter in pixels">
+				<div class="input-group-append">
+					<span class="input-group-text" id="validationTooltipUsernamePrepend">Set it</span>
+				</div>
+			</div>
+			<small id="pHelp" data-element="pH" class="form-text show-me"></small>
+		</div>
+
+		<!-- h1 -->
+		<div class="form-group">
+			<label for="h1">H1</label>
+			<div class="input-group">
+				<input type="number" size="4" class="form-control" id="h1" aria-describedby="h1Help" placeholder="Enter in pixels">
+				<div class="input-group-append">
+					<span class="input-group-text" id="validationTooltipUsernamePrepend">Set it</span>
+				</div>
+			</div>
+			<small id="h1Help" data-element="h1" class="form-text col-12 show-me"></small>
+		</div>
+
+		<!-- h2 -->
+		<div class="form-group">
+			<label for="h2">h2</label>
+			<div class="input-group">
+				<input type="number" class="form-control" id="h2" aria-describedby="h2Help" placeholder="Enter in pixels">
+				<div class="input-group-append">
+					<span class="input-group-text" id="validationTooltipUsernamePrepend">Set it</span>
+				</div>
+			</div>
+			<small id="h2Help" data-element="h2" class="form-text show-me"></small>
+		</div>
+
+		<!-- h3 -->
+		<div class="form-group">
+			<label for="h3">h3</label>
+			<div class="input-group">
+				<input type="number" class="form-control" id="h3" aria-describedby="h3Help" placeholder="Enter in pixels">
+				<div class="input-group-append">
+					<span class="input-group-text" id="validationTooltipUsernamePrepend">Set it</span>
+				</div>
+			</div>
+			<small id="h3Help" data-element="h3" class="form-text show-me"></small>
+		</div>
+
+		<!-- h4 -->
+		<div class="form-group">
+			<label for="h4">h4</label>
+			<div class="input-group">
+				<input type="number" size="4" class="form-control" id="h4" aria-describedby="h4Help" placeholder="Enter in pixels">
+				<div class="input-group-append">
+					<span class="input-group-text" id="validationTooltipUsernamePrepend">Set it</span>
+				</div>
+			</div>
+			<small id="h4Help" data-element="h4" class="form-text show-me"></small>
+		</div>
+
+		<!-- h5 -->
+		<div class="form-group">
+			<label for="h5">h5</label>
+			<div class="input-group">
+				<input type="number" class="form-control" id="h5" aria-describedby="h5Help" placeholder="Enter in pixels">
+				<div class="input-group-append">
+					<span class="input-group-text" id="validationTooltipUsernamePrepend">Set it</span>
+				</div>
+			</div>
+			<small id="h5Help" data-element="h5" class="form-text show-me"></small>
+		</div>
+	</form>
+	<style>
+		.highlight {
+			border: 2px solid #80bdff;
+			box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);
+			text-decoration: underline;
+		}
+
+		.input-group-append, small.show-me {
+			cursor: pointer;
+		}
+	</style>
+	<script>
+		const form = document.getElementById('set-font-size');
+		const inputs = document.querySelectorAll('#set-font-size input[type="number"]');
+		const setIts = document.querySelectorAll('#set-font-size .input-group-append');
+		const showMes = document.querySelectorAll('#set-font-size .show-me');
+
+		function setFontSize(event){
+			// console.log(event.target.parentElement)
+			let input = event.target.parentElement.previousElementSibling,
+				size = input.value,
+				toTarget = input.id,
+				allTargets = document.querySelectorAll(toTarget);
+				console.log( "input: "+ input);
+				console.log( "size: "+ size);
+				console.log( "toTarget: "+ toTarget);
+
+				
+				if (isNaN(size) || size == '') {
+					
+					console.log('nah, it isnt a number')
+				} else {
+					for (let whatevs of allTargets) {
+
+						// check if original size was already recorded
+						if (!whatevs.hasAttribute('data-original-size')) {
+							// if not, record it
+							let targetsStyles = window.getComputedStyle(whatevs);
+							console.log( 'original size is ' + targetsStyles.getPropertyValue('font-size'));
+							whatevs.setAttribute('data-original-size', targetsStyles.getPropertyValue('font-size'));
+						}
+
+						// and then set our new font size
+						// console.log('we have a length of: '+ event.target.value.length)
+						whatevs.style.fontSize = size+'px';
+					}
+				}
+		}
+
+		function showFirstExample(event) {
+			let element = event.target.getAttribute('data-element'),
+				firstExample = document.querySelector(element);
+				firstExample.setAttribute('id', 'our-'+element);
+
+				// remove high light from any other element
+				let currentlyHighlighted = document.getElementsByClassName('highlight');
+				if ( currentlyHighlighted.length > 0 ) {
+					for (let highlights of currentlyHighlighted ) {
+						highlights.classList.remove('highlight')
+					}
+				}
+
+				// add highlight to the first of this element
+				firstExample.classList.add('highlight');
+				window.location = "#our-"+element;
+		}
+
+		function focus(event) {
+			//var declarations
+			var targetEl = event.target.id;
+			var targetDescription = event.target.nextElementSibling;
+			var firstExample = document.querySelector(targetEl);
+			var showMe = event.target.parentElement.nextElementSibling;
+			var highlightStyles = "color: #495057;background-color: #fff;border-color: #80bdff;outline: 0;box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);"
+
+
+			// if we have one of these elements on the page...
+			if ( firstExample ) {
+				
+				// create link to show the first one...
+				showMe.innerHTML = "Show me the first one";
+				showMe.style.textDecoration = "underline";
+				
+				// and add event listener to it
+				showMe.addEventListener('click', showFirstExample );
+				showMe.addEventListener('tap', showFirstExample );
+
+				// remove high light from any other element
+				let currentlyHighlighted = document.getElementsByClassName('highlight');
+				if ( currentlyHighlighted.length > 0 ) {
+					for (let highlights of currentlyHighlighted ) {
+						highlights.classList.remove('highlight')
+					}
+				}
+
+				// highlight an example of this element
+				firstExample.classList.add('highlight')
+			} else {
+
+				// can't find a matching element on the page, better let the user know
+				showMe.innerHTML = "Doesn't look like we have on one this page";
+				showMe.style.color = "#E03C31";
+			}
+			
+
+			// set the input description to the text in the example
+			// targetDescription.innerHTML = 'Sample text: ' + firstExample.innerHTML;
+
+		}
+
+		function blur(event) {
+
+			// var declaration
+			var targetEl = event.target.id,
+				description = event.target.nextElementSibling,
+				firstExample = document.querySelector(targetEl);
+
+			// remove the highlight from example element
+			firstExample.classList.remove('highlight');
+
+
+			// clear the description
+			// description.innerHTML = '';
+
+		}
+
+		// add focus/blur event listeners
+		for (var i = 0; i < inputs.length; i++) {
+			var input = inputs[i];
+
+			input.addEventListener('focus', focus );
+			input.addEventListener('blur', blur );
+		}
+
+		// add event listener to set font size
+		for (var i = 0; i < setIts.length; i++) {
+			let button = setIts[i];
+
+			button.addEventListener('click', setFontSize );
+			button.addEventListener('tap', setFontSize );
+		}
+
+		// add event listener to show first matching element
+		for (var i = 0; i < showMes.length; i++) {
+			// let link = showMes[i];
+
+			// link.addEventListener('click', showFirstExample );
+			// link.addEventListener('tap', showFirstExample );
+		}
+	</script>
+</div>
+		
